@@ -34,8 +34,6 @@ namespace AlbumStore.Data
                 entity.HasIndex(e => e.ArtistId)
                     .HasName("IFK_AlbumArtistId");
 
-                entity.Property(e => e.AlbumId).ValueGeneratedNever();
-
                 entity.Property(e => e.Title)
                     .IsRequired()
                     .HasMaxLength(160);
