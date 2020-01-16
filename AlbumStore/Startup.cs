@@ -8,9 +8,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
-using AlbumStore.Data;
 using Microsoft.EntityFrameworkCore;
+using AlbumStore.Data;
 
 namespace AlbumStore
 {
@@ -30,8 +29,6 @@ namespace AlbumStore
             {
                 options.UseSqlServer(Configuration.GetConnectionString("AlbumStoreDb"));
             });
-
-            services.AddScoped<IAlbumData, SqlAlbumData>();
 
             services.AddRazorPages();
         }

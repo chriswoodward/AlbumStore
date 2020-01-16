@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using AlbumStore.Core;
-using AlbumStore.Data;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace AlbumStore
 {
@@ -21,52 +19,82 @@ namespace AlbumStore
         }
 
         [BindProperty]
-        public Album Album { get; set; }
+        public EditAlbumViewModel Album { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public class EditAlbumViewModel
         {
-            if (id == null)
+            public int Id { get; set; }
+
+            [Required, StringLength(160)]
+            public string Title { get; set; }
+
+            [Required]
+            [Display(Name = "Artist")]
+            public int ArtistId { get; set; }
+
+            [Required, StringLength(255)]
+            public string ReferenceNumber { get; set; }
+        }
+
+        public IEnumerable<SelectListItem> ArtistList { get; set; }
+
+        public IActionResult OnGet(int? albumId)
+        {
+            if (albumId == null)
             {
                 return NotFound();
             }
 
-            Album = await _context.Albums
-                .Include(a => a.Artist).FirstOrDefaultAsync(m => m.AlbumId == id);
+            var album = _context.Albums.Find(albumId);
 
-            if (Album == null)
+            if (album == null)
             {
                 return NotFound();
             }
-           ViewData["ArtistId"] = new SelectList(_context.Artists, "ArtistId", "ArtistId");
+
+            Album = new EditAlbumViewModel()
+            {
+                Id = album.AlbumId,
+                Title = album.Title,
+                ArtistId = album.ArtistId,
+                ReferenceNumber = album.ReferenceNumber
+            };
+
+            ArtistList = _context.Artists
+                                 .OrderBy(x => x.Name)
+                                 .Select(x => new SelectListItem
+                                 {
+                                     Text = x.Name,
+                                     Value = x.ArtistId.ToString()
+                                 });
+
             return Page();
         }
 
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        
+        public IActionResult OnPost()
         {
             if (!ModelState.IsValid)
             {
+                ArtistList = _context.Artists
+                                 .OrderBy(x => x.Name)
+                                 .Select(x => new SelectListItem
+                                 {
+                                     Text = x.Name,
+                                     Value = x.ArtistId.ToString()
+                                 });
+
                 return Page();
             }
 
-            _context.Attach(Album).State = EntityState.Modified;
+            var album = _context.Albums.Find(Album.Id);
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!AlbumExists(Album.AlbumId))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            album.Title = Album.Title;
+            album.ArtistId = Album.ArtistId;
+            album.ReferenceNumber = Album.ReferenceNumber;
+
+            _context.Attach(album).State = EntityState.Modified;
+            _context.SaveChanges();
 
             return RedirectToPage("./Index");
         }

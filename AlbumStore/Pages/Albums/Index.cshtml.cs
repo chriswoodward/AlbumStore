@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using AlbumStore.Core;
-using AlbumStore.Data;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AlbumStore
 {
@@ -19,12 +15,28 @@ namespace AlbumStore
             _context = context;
         }
 
-        public IList<Album> Albums { get;set; }
+        public IEnumerable<AlbumListItem> Albums { get; set; }
 
-        public async Task OnGetAsync()
+        public class AlbumListItem
         {
-            Albums = await _context.Albums
-                .Include(a => a.Artist).ToListAsync();
+            public int AlbumId { get; set; }
+            public string Title { get; set; }           
+            public string ReferenceNumber { get; set; }
+            public string Artist { get; set; }
+        }
+
+        public void OnGet()
+        {
+            Albums = _context.Albums
+                .Include(x => x.Artist)
+                .OrderBy(x => x.Title)
+                .Select(x => new AlbumListItem
+            {
+                AlbumId = x.AlbumId,
+                Title = x.Title,
+                Artist = x.Artist.Name,
+                ReferenceNumber = x.ReferenceNumber
+            });
         }
     }
 }

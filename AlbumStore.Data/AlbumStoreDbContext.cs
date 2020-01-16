@@ -1,12 +1,11 @@
 ﻿using System;
-using AlbumStore.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace AlbumStore.Data
 {
     public partial class AlbumStoreDbContext : DbContext
-    {        
+    {
 
         public AlbumStoreDbContext(DbContextOptions<AlbumStoreDbContext> options)
             : base(options)
@@ -23,7 +22,7 @@ namespace AlbumStore.Data
         public virtual DbSet<MediaType> MediaTypes { get; set; }
         public virtual DbSet<Playlist> Playlists { get; set; }
         public virtual DbSet<PlaylistTrack> PlaylistTracks { get; set; }
-        public virtual DbSet<Track> Tracks { get; set; }   
+        public virtual DbSet<Track> Tracks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -34,13 +33,13 @@ namespace AlbumStore.Data
                 entity.HasIndex(e => e.ArtistId)
                     .HasName("IFK_AlbumArtistId");
 
-                entity.Property(e => e.Title)
-                    .IsRequired()
-                    .HasMaxLength(160);
-
                 entity.Property(e => e.ReferenceNumber)
                     .IsRequired()
                     .HasMaxLength(255);
+
+                entity.Property(e => e.Title)
+                    .IsRequired()
+                    .HasMaxLength(160);
 
                 entity.HasOne(d => d.Artist)
                     .WithMany(p => p.Album)

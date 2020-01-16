@@ -14,13 +14,13 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Albums[0].Title)
+                Title
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Albums[0].Artist)
+                Reference Number
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Albums[0].ReferenceNumber)
+                Artist
             </th>
             <th></th>
         </tr>
@@ -32,15 +32,15 @@
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ArtistId)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.ReferenceNumber)
             </td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.AlbumId">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.AlbumId">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.AlbumId">Delete</a>
+                @Html.DisplayFor(modelItem => item.Artist)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-albumId="@item.AlbumId">Edit</a> |
+                <a asp-page="./Details" asp-route-albumId="@item.AlbumId">Details</a> |
+                <a asp-page="./Delete" asp-route-albumId="@item.AlbumId">Delete</a>
             </td>
         </tr>
 }

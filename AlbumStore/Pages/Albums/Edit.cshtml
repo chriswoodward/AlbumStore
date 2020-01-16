@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{albumId:int?}"
 @model AlbumStore.EditModel
 
 @{
@@ -13,7 +13,7 @@
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Album.AlbumId" />
+            <input type="hidden" asp-for="Album.Id" />
             <div class="form-group">
                 <label asp-for="Album.Title" class="control-label"></label>
                 <input asp-for="Album.Title" class="form-control" />
@@ -21,8 +21,13 @@
             </div>
             <div class="form-group">
                 <label asp-for="Album.ArtistId" class="control-label"></label>
-                <select asp-for="Album.ArtistId" class="form-control" asp-items="ViewBag.ArtistId"></select>
+                <select asp-for="Album.ArtistId" class="form-control" asp-items="Model.ArtistList"></select>
                 <span asp-validation-for="Album.ArtistId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Album.ReferenceNumber" class="control-label"></label>
+                <input asp-for="Album.ReferenceNumber" class="form-control" />
+                <span asp-validation-for="Album.ReferenceNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
