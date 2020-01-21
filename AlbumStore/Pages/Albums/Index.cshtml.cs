@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -9,6 +10,9 @@ namespace AlbumStore
     public class IndexModel : PageModel
     {
         private readonly AlbumStore.Data.AlbumStoreDbContext _context;
+
+        [BindProperty(SupportsGet = true)]
+        public string TitleFilter { get; set; }
 
         public IndexModel(AlbumStore.Data.AlbumStoreDbContext context)
         {
@@ -27,16 +31,22 @@ namespace AlbumStore
 
         public void OnGet()
         {
-            Albums = _context.Albums
-                .Include(x => x.Artist)
-                .OrderBy(x => x.Title)
-                .Select(x => new AlbumListItem
+            var query = _context.Albums.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(TitleFilter))
             {
-                AlbumId = x.AlbumId,
-                Title = x.Title,
-                Artist = x.Artist.Name,
-                ReferenceNumber = x.ReferenceNumber
-            });
+                query = query.Where(x => x.Title.Contains(TitleFilter));
+            }
+
+            Albums = query.Include(x => x.Artist)
+                          .OrderBy(x => x.Title)
+                          .Select(x => new AlbumListItem
+                                            {
+                                                AlbumId = x.AlbumId,
+                                                Title = x.Title,
+                                                Artist = x.Artist.Name,
+                                                ReferenceNumber = x.ReferenceNumber
+                                            });
         }
     }
 }
