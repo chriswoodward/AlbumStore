@@ -1,0 +1,31 @@
+﻿@page
+@model AlbumStore.Pages.Albums.TelerikGridModel
+
+
+@using Kendo.Mvc.UI
+
+
+
+
+@{
+    ViewData["Title"] = "TelerikGrid";
+}
+
+<h1>TelerikGrid</h1>
+
+
+
+@(Html.Kendo().Grid(Model.Albums)
+    .Name("Grid")
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.Title).Title("Title");
+        columns.Bound(p => p.ReferenceNumber).Title("Reference Number");
+        columns.Bound(p => p.Artist).Title("Artist");        
+    })
+    .Pageable()    
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(20)
+        .ServerOperation(false)
+     ))

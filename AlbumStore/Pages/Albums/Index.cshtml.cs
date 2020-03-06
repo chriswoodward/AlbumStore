@@ -5,8 +5,11 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AlbumStore
+namespace AlbumStore.Pages.Albums
 {
+
+
+
     public class IndexModel : PageModel
     {
         private readonly AlbumStore.Data.AlbumStoreDbContext _context;
