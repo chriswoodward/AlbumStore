@@ -1,5 +1,4 @@
 ﻿
-using AlbumStore.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,9 +10,9 @@ namespace AlbumStore
 {
     public class CreateModel : PageModel
     {
-        private readonly AlbumStore.Data.AlbumStoreDbContext _context;
+        private readonly AlbumStore.Entities.AlbumStoreDbContext _context;
 
-        public CreateModel(AlbumStore.Data.AlbumStoreDbContext context)
+        public CreateModel(AlbumStore.Entities.AlbumStoreDbContext context)
         {
             _context = context;
         }       
@@ -66,7 +65,7 @@ namespace AlbumStore
                 return Page();
             }
 
-            var album = new Album() { Title = Album.Title, ArtistId = Album.ArtistId, ReferenceNumber = Album.ReferenceNumber };
+            var album = new AlbumStore.Entities.Album() { Title = Album.Title, ArtistId = Album.ArtistId, ReferenceNumber = Album.ReferenceNumber };
 
             _context.Albums.Add(album);
             _context.SaveChanges();

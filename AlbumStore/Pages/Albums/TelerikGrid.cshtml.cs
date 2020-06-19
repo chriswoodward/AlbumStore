@@ -10,12 +10,12 @@ namespace AlbumStore.Pages.Albums
 {
     public class TelerikGridModel : PageModel
     {
-        private readonly AlbumStore.Data.AlbumStoreDbContext _context;
+        private readonly AlbumStore.Entities.AlbumStoreDbContext _context;
 
         [BindProperty(SupportsGet = true)]
         public string TitleFilter { get; set; }
 
-        public TelerikGridModel(AlbumStore.Data.AlbumStoreDbContext context)
+        public TelerikGridModel(AlbumStore.Entities.AlbumStoreDbContext context)
         {
             _context = context;
         }

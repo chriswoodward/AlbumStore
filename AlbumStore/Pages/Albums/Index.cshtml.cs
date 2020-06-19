@@ -12,12 +12,12 @@ namespace AlbumStore.Pages.Albums
 
     public class IndexModel : PageModel
     {
-        private readonly AlbumStore.Data.AlbumStoreDbContext _context;
+        private readonly AlbumStore.Entities.AlbumStoreDbContext _context;
 
         [BindProperty(SupportsGet = true)]
         public string TitleFilter { get; set; }
 
-        public IndexModel(AlbumStore.Data.AlbumStoreDbContext context)
+        public IndexModel(AlbumStore.Entities.AlbumStoreDbContext context)
         {
             _context = context;
         }

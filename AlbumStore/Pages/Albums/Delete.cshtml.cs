@@ -9,9 +9,9 @@ namespace AlbumStore
 {
     public class DeleteModel : PageModel
     {
-        private readonly AlbumStore.Data.AlbumStoreDbContext _context;
+        private readonly AlbumStore.Entities.AlbumStoreDbContext _context;
 
-        public DeleteModel(AlbumStore.Data.AlbumStoreDbContext context)
+        public DeleteModel(AlbumStore.Entities.AlbumStoreDbContext context)
         {
             _context = context;
         }       

@@ -1,24 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using AlbumStore.Data;
 
 namespace AlbumStore
 {
     public class DetailsModel : PageModel
     {
-        private readonly AlbumStore.Data.AlbumStoreDbContext _context;
+        private readonly AlbumStore.Entities.AlbumStoreDbContext _context;
 
-        public DetailsModel(AlbumStore.Data.AlbumStoreDbContext context)
+        public DetailsModel(AlbumStore.Entities.AlbumStoreDbContext context)
         {
             _context = context;
         }
 
-        public Album Album { get; set; }
+        public AlbumStore.Entities.Album Album { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {

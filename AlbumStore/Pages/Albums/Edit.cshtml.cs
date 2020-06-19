@@ -11,9 +11,9 @@ namespace AlbumStore
 {
     public class EditModel : PageModel
     {
-        private readonly AlbumStore.Data.AlbumStoreDbContext _context;
+        private readonly AlbumStore.Entities.AlbumStoreDbContext _context;
 
-        public EditModel(AlbumStore.Data.AlbumStoreDbContext context)
+        public EditModel(AlbumStore.Entities.AlbumStoreDbContext context)
         {
             _context = context;
         }
